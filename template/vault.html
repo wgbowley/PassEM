@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Vault</title>
+    <link rel="stylesheet" href="../static/styles/vault.css">
+</head>
+<body>
+    <div class="topbar">
+        <button id="addAccount">New Entry</button>
+        <div class="topbar-right">
+            <input type="text" id="searchBar" placeholder="Search by URL...">
+            <a href="/logout"><button id="logoutButton">Logout</button></a>
+        </div>
+    </div>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id:</th>
+                    <th>Name:</th>
+                    <th>Url:</th>
+                    <th>Password:</th>
+                    <th>Actions:</th>
+                </tr>
+            </thead>
+            <tbody id="accountsTable">
+                <!-- Data rows will be inserted here by JavaScript -->
+            </tbody>
+        </table>        
+    </main>
+
+    <!-- Add Modal -->
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="addClose">&times;</span>
+            <h2>New Account</h2>
+            <form id="addForm">
+                <input type="text" id="addName" name="name" placeholder="Enter Name" required>
+                <input type="text" id="addUrl" name="url" placeholder="Enter URL" required>
+                <div class="password-wrapper">
+                    <input type="password" id="addPassword" name="password" placeholder="Enter Password" required>
+                    <button type="button" class="toggle-password"  id="toggle-password-modal" onclick="togglePasswordVisibility('addPassword', this)">Show</button>
+                </div>
+                <button type="submit">Add</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="editClose">&times;</span>
+            <h2>Edit Account</h2>
+            <form id="editForm">
+                <input type="hidden" id="editId" placeholder="Edit ID" name="id">
+                <input type="text" id="editName" name="name" placeholder="Edit Name" required>
+                <input type="text" id="editUrl" name="url" placeholder="Edit URL" required>
+                <div class="password-wrapper">
+                    <input type="password" id="editPassword" placeholder="Edit Password" name="password" required>
+                    <button type="button" class="toggle-password" id="toggle-password-modal" onclick="togglePasswordVisibility('editPassword', this)">Show</button>
+                </div>
+                <button type="submit">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="deleteClose">&times;</span>
+            <h2>Confirm Deletion</h2>
+            <p>Are you sure you want to delete this account?</p>
+            <button id="confirmDelete">Delete</button>
+            <button id="cancelDelete">Cancel</button>
+        </div>
+    </div>
+    <script src="/static/javascript/vault.js"></script>
+</body>
+</html>

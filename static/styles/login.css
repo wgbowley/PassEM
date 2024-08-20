@@ -1,0 +1,91 @@
+:root {
+    --background-color: black;
+    --text-color: #fff;
+
+    --button-background-color: #fff;
+    --button-text-color: #1c1c1c;
+    --button-hover-background-color: #1c3444;
+
+    --error-message-color: #b83838;
+    
+    --initialize-text-color: #fff;
+    --initialize-hover-color: #1c3444;
+
+    --font-family: 'Courier New', Courier, monospace;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background: var(--background-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+}
+
+main {
+    text-align: center;
+    box-sizing: border-box;
+}
+
+pre {
+    white-space: pre-wrap;
+    font-family: var(--font-family);
+    margin-bottom: 2vh;
+}
+
+form {
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input,
+button {
+    background-color: var(--button-background-color);
+    border: none;
+    box-sizing: border-box;
+    margin-bottom: 1.5vh;
+    padding: 2vh;
+    width: 100%;
+    font-family: var(--font-family);
+}
+
+button {
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-bottom: 1.3vh;
+    padding: 1.2vh;
+    transition: background-color 0.8s ease-in-out;
+}
+
+button:hover {
+    background-color: var(--button-hover-background-color);
+}
+
+.error-message {
+    color: var(--error-message-color);
+    font-size: 0.9rem;
+    margin-bottom: 1.5vh;
+}
+
+.initialize {
+    color: var(--initialize-text-color);
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    text-decoration: none;
+    transition: color 0.5s ease-in-out, text-decoration 0.5s ease-in-out;
+    width: 100%;
+}
+
+.initialize:hover {
+    color: var(--initialize-hover-color);
+    text-decoration: underline;
+}

@@ -1,0 +1,240 @@
+:root {
+    --background-color: #141414;
+    --topbar-background-color: rgba(0, 0, 0, 0.4);
+    --text-color: #fff;
+
+    --button-background-color: #fff;
+    --button-text-color: black;
+    --button-hover-background-color: #1c3444;
+    --button-hover-text-color: white;
+
+    --font-family: 'Courier New', Courier, monospace;
+
+    --modal-background: rgb(0, 0, 0);
+    --modal-content-background: #181818;
+
+    --border-color: white;
+    --box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font: var(--font-family);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px 10px 10px;
+    box-shadow: var(--box-shadow);
+
+    background-color: var(--topbar-background-color);
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.topbar input[type="text"] {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 8px;
+    background-color: #333;
+    border-radius: 0;
+    transition: border-color 0.3s;
+
+    border: none;
+    color: var(--text-color);
+}
+
+.topbar button {
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 0;
+    transition: background-color 0.3s;
+
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
+}
+
+.topbar button:hover {
+    color: var(--button-hover-text-color);
+    background-color: var(--button-hover-background-color);
+}
+
+main {
+    flex: 1;
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    position: relative;
+
+    border-bottom: 1px solid var(--border-color);
+}
+
+.actions {
+    position: absolute;
+    border: none;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+
+    color: var(--text-color);
+}
+
+.actions button {
+    padding: 5px;
+    border: none;
+    margin-left: 5px;
+    cursor: pointer;
+    border-radius: 0;
+    transition: background-color 0.3s;
+
+    
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
+}
+
+.actions button:hover {
+    background-color: var(--button-hover-background-color);
+}
+
+tr:hover .actions {
+    opacity: 1;
+}
+
+tr {
+    position: relative;
+}
+
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
+
+.modal-content {
+    text-align: center;
+    margin: 5% auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 0;
+
+    background-color: var(--modal-content-background);
+    box-shadow: var(--box-shadow);
+    color: var(--text-color);
+}
+
+.close {
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+
+    color: var(--text-color);
+}
+
+.close:hover,
+.close:focus {
+    color: #ddd;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    margin: 5px 0 2px;
+}
+
+form input {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #222;
+    border-radius: 0;
+    border: none;
+
+    color: var(--text-color);
+}
+
+form input:focus {
+    border-color: var(--button-hover-background-color);
+}
+
+form button {
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 0;
+    transition: background-color 0.3s;
+
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
+}
+
+form button:hover {
+    background-color: var(--button-hover-background-color);
+    color: var(--text-color);
+}
+
+
+#addPassword, #editPassword {
+    width: 81%
+}
+
+#toggle-password-modal {
+    width: 15%
+}
+
+#confirmDelete, #cancelDelete {
+    padding: 5px;
+    border: none;
+    cursor: pointer;
+    border-radius: 0;
+    transition: background-color 0.3s;
+
+    
+    background-color: var(--button-background-color);
+    color: var(--button-text-color);
+}
+
+#confirmDelete:hover, #cancelDelete:hover {
+    background-color: var(--button-hover-background-color);
+}
+
+#cancelDelete:hover {
+    background-color: #da1e37;
+}

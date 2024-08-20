@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PassEM</title>
+    <link rel="stylesheet" href="../static/styles/login.css">
+</head>
+<body>
+    <main>
+<pre>
+`7MM"""Mq.                        `7MM"""YMM  `7MMM.     ,MMF'
+  MM   `MM.                         MM    `7    MMMb    dPMM  
+  MM   ,M9 ,6"Yb.  ,pP"Ybd ,pP"Ybd  MM   d      M YM   ,M MM  
+  MMmmdM9 8    MM  8I   `" 8I   `"  MMmmMM      M  Mb  M' MM  
+  MM       ,pm9MM  `YMMMa. `YMMMa.  MM   Y  ,   M  YM.P'  MM  
+  MM      8M   MM  L.   I8 L.   I8  MM     ,M   M  `YM'   MM  
+.JMML.    `Moo9^Yo.M9mmmP' M9mmmP'.JMMmmmmMMM .JML. `'  .JMML.
+</pre>
+        <form method="post", action="/login">
+            <input type="password" name="MasterPassword" placeholder="Password" required>
+            <button type="submit">Login</button>
+            <a href="/initialize" class="initialize">Initialize?</a>
+            {% if error %}
+            <p class="error-message">{{ error }}</p>
+            {% endif %}
+        </form>
+    </main>
+</body>
+</html>
