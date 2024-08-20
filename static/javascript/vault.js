@@ -1,3 +1,7 @@
+function escapeHtml(value) {
+    return value.replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+}
+
 function getAccountData() {
     fetch('/data', {
         method: 'POST',
@@ -15,14 +19,14 @@ function getAccountData() {
 
             row.innerHTML = `
                 <td>${id}</td>
-                <td>${info.name}</td>
-                <td>${info.url}</td> <!-- Use 'url' instead of 'label' -->
+                <td>${escapeHtml(info.name)}</td>
+                <td>${escapeHtml(info.url)}</td>
                 <td>
-                    <input type="password" id="password-${id}" class="password-field" value="${info.password}" readonly>
+                    <input type="password" id="password-${id}" class="password-field" value="${escapeHtml(info.password)}" readonly>
                 </td>
                 <td class="actions">
                     <button onclick="togglePasswordVisibility('password-${id}', this)">View</button>
-                    <button onclick="showEditModal('${id}', '${info.name}', '${info.url}', '${info.password}')">Edit</button> 
+                    <button onclick="showEditModal('${id}', '${escapeHtml(info.name)}', '${escapeHtml(info.url)}', '${escapeHtml(info.password)}')">Edit</button>
                     <button onclick="showDeleteModal('${id}')">Delete</button>
                 </td>
             `;
