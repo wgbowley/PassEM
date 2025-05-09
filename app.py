@@ -14,7 +14,7 @@ app = Flask(__name__, template_folder='template', static_folder='static')
 
 # Global variables
 IDLENGTH = 32
-DBPATH = 'database/accounts.json'
+DBPATH = 'accounts.json'
 LOGFILEPATH = 'logs/application.log'
 
 # Configure logging
