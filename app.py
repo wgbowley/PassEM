@@ -1,3 +1,7 @@
+# PassEM (Password Encrypted Manager)
+# 20th of August, 2024
+# William Bowley
+
 import os
 import re
 import logging

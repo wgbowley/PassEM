@@ -1,0 +1,4 @@
+pycryptodome
+flask
+crypt
+flask-session
