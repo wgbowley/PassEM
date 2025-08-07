@@ -1,12 +1,22 @@
-# PassEM (Password Encrypted Manager)
-# 20th of August, 2024
-# William Bowley
+"""
+File: app.py
+Author: William Bowley
+Version: 1.0
+Date: 2025-08-08 / 2024-08-20
+
+Description:
+    PassEM (Password Encrypted Manager) uses AES-256
+    encryption to protect user information.
+
+    This file manages routing of requests made by the user.
+"""
 
 import os
 import re
 import logging
-from flask import Flask, render_template, request, jsonify, session, redirect, url_for
-from flask_session import Session  # Import Flask-Session
+from flask import Flask, render_template, jsonify, redirect, url_for
+from flask import request, session
+from flask_session import Session
 from scripts import functions
 
 # Initialize Flask application
@@ -30,11 +40,12 @@ logging.basicConfig(
 app.secret_key = functions.generate_id(IDLENGTH)
 
 # Configure server-side sessions
-app.config['SESSION_TYPE'] = 'filesystem' 
+app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SESSION_PERMANENT'] = False
-app.config['SESSION_USE_SIGNER'] = True  
+app.config['SESSION_USE_SIGNER'] = True
 
-Session(app)  
+Session(app)
+
 
 def check_authorization():
     """
@@ -44,11 +55,13 @@ def check_authorization():
         return functions.password_check(DBPATH, str(session['MasterPassword']))
     return False
 
+
 def database_exists(path):
     """
     Check if the database file exists.
     """
-    return os.path.exists(path) 
+    return os.path.exists(path)
+
 
 @app.route('/')
 def index():
@@ -58,6 +71,7 @@ def index():
     if check_authorization():
         return render_template('vault.html')
     return render_template('login.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -71,13 +85,16 @@ def login():
     if functions.password_check(DBPATH, password):
         session['MasterPassword'] = password
         return redirect(url_for('vault'))
-    
-    return render_template('login.html', error="* Invalid credentials or setup error. Please try again.")
+
+    e = "* Invalid credentials or setup error. Please try again."
+    return render_template('login.html', error=e)
+
 
 @app.route('/initialize', methods=['GET', 'POST'])
 def initialize():
     """
-    Initialize the database with a new password. Validate the password strength and match.
+    Initialize the database with a new password.
+    Validate the password strength and match.
     """
     if request.method == 'GET':
         return render_template('initialize.html')
@@ -86,27 +103,42 @@ def initialize():
     confirm_password = request.form.get('confirmPassword')
 
     if new_password != confirm_password:
-        return render_template('initialize.html', error="Passwords do not match.")
+        e = "Passwords do not match."
+        return render_template('initialize.html', error=e)
 
     if len(new_password) < 16:
-        return render_template('initialize.html', error="Password must be at least 16 characters long.")
+        e = "Password must be at least 16 characters long."
+        return render_template('initialize.html', error=e)
 
-    if (not re.search(r'[A-Z]', new_password) or
-        not re.search(r'[a-z]', new_password) or
-        not re.search(r'\d', new_password) or
-        not re.search(r'[@#$%^&+=!]', new_password)):
-        return render_template('initialize.html', error="Password must include at least one uppercase letter, one lowercase letter, one digit, and one special character.")
+    if (
+        not re.search(r'[A-Z]', new_password)
+        or not re.search(r'[a-z]', new_password)
+        or not re.search(r'\d', new_password)
+        or not re.search(r'[@#$%^&+=!]', new_password)
+    ):
+        e = (
+            "Password must include at least one uppercase letter, "
+            "one lowercase letter, one digit, and one special character."
+        )
+        return render_template('initialize.html', error=e)
 
     if database_exists(DBPATH):
-        return render_template('initialize.html', error="Database already exists at the specified location.")
-    
+        e = "Database already exists at the specified location."
+        return render_template('initialize.html', error=e)
+
     try:
         functions.initialize_db(DBPATH, new_password)
         session['MasterPassword'] = new_password
         return redirect(url_for('vault'))
     except Exception:
-        logging.error("Failed to initialize the database during initialization route.")
-        return render_template('initialize.html', error="Failed to initialize the database. Please try again.")
+        e = "Failed to initialize the database during initialization route."
+        logging.error(e)
+
+        return render_template(
+            'initialize.html',
+            error="Failed to initialize the database. Please try again."
+        )
+
 
 @app.route('/vault', methods=['GET', 'POST'])
 def vault():
@@ -115,7 +147,10 @@ def vault():
     """
     if check_authorization():
         return render_template('vault.html')
-    return render_template('login.html', error="* Authorization required to access the vault")
+
+    e = "* Authorization required to access the vault"
+    return render_template('login.html', error=e)
+
 
 @app.route('/data', methods=['POST'])
 def get_data():
@@ -124,13 +159,16 @@ def get_data():
     """
     if not check_authorization():
         return jsonify({'error': 'Unauthorized'}), 401
-    
+
     try:
         data = functions.load_db(DBPATH, session['MasterPassword'])
         return jsonify(data)
     except Exception:
         logging.error("Failed to retrieve data during get_data route.")
-        return jsonify({'error': 'Failed to retrieve data. Please try again later.'}), 500
+        return jsonify(
+            {'error': 'Failed to retrieve data. Please try again later.'}
+        ), 500
+
 
 @app.route('/accounts', methods=['POST', 'PUT', 'DELETE'])
 def manage_account():
@@ -151,20 +189,31 @@ def manage_account():
         if request.method == 'POST':
             account_data = {
                 'name': data['name'],
-                'url': data['url'], 
+                'url': data['url'],
                 'password': data['password']
             }
-            functions.add_account(DBPATH, IDLENGTH, session['MasterPassword'], account_data)
+            functions.add_account(
+                DBPATH,
+                IDLENGTH,
+                session['MasterPassword'],
+                account_data
+            )
             return jsonify({"status": "success", "action": "added"})
 
         elif request.method == 'PUT':
             account_id = data['id']
             account_data = {
                 'name': data['name'],
-                'url': data['url'],  
+                'url': data['url'],
                 'password': data['password']
             }
-            functions.edit_account(DBPATH, account_id, account_data, session['MasterPassword'])
+            print('test')
+            functions.edit_account(
+                DBPATH,
+                account_id,
+                account_data,
+                session['MasterPassword']
+            )
             return jsonify({"status": "success", "action": "edited"})
 
         elif request.method == 'DELETE':
@@ -178,7 +227,10 @@ def manage_account():
         return jsonify({"error": "Missing required data."}), 400
     except Exception:
         logging.error("An error occurred during account management.")
-        return jsonify({"error": "An error occurred. Please try again later."}), 500
+        return jsonify(
+            {"error": "An error occurred. Please try again later."}
+        ), 500
+
 
 @app.route('/logout', methods=['GET'])
 def logout():
@@ -189,8 +241,9 @@ def logout():
         return redirect(url_for('index'))
 
     del session['MasterPassword']
-    app.secret_key = functions.generate_id(IDLENGTH) 
+    app.secret_key = functions.generate_id(IDLENGTH)
     return redirect(url_for('index'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)

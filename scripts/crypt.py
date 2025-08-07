@@ -1,8 +1,19 @@
+"""
+File: crypt.py
+Author: William Bowley
+Version: 1.0
+Date: 2025-08-08
+
+Description:
+    Module for encrypting and decrypting data
+"""
+
 import hashlib
 import json
 from base64 import b64encode, b64decode
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
+
 
 def encrypt(account: str, master_pass: str) -> dict:
     """
@@ -26,6 +37,7 @@ def encrypt(account: str, master_pass: str) -> dict:
         'nonce': b64encode(cipher.nonce).decode('utf-8'),
         'tag': b64encode(tag).decode('utf-8')
     }
+
 
 def decrypt(encrypted_account: dict, password: str) -> dict:
     """

@@ -1,4 +1,4 @@
 pycryptodome
 flask
-crypt
 flask-session
+bcrypt
